@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INICIO</title>
+</head>
+    {% block content %}
+    <nav>
+        <ul>
+            <li><a href="/">Inicio</a></li>
+
+            {% if user.is_authenticated %}
+                {% if user_rol == 'Cliente' %}
+                    <li><a href="/registrarreclamo/">Registrar Reclamo</a></li>
+                    <li><a href="/registrarsolicitud/">Registrar Solicitud</a></li>
+                    <li><a href="/seguimientoestado/">Seguimiento de Estado</a></li>
+                    <li><a href="/historialreclamos/">Mis Reclamos</a></li>
+                    <li><a href="/historialsolicitudes/">Mis Solicitudes</a></li>
+
+                {% elif user_rol == 'Empleado' %}
+                    <li><a href="/cambiarestado/">Cambiar Estado</a></li>
+
+                {% elif user_rol == 'Administradores' %}
+                    <li><a href="/cambiarestado/">Cambiar Estado</a></li>
+                    <li><a href="/gestionarpermisos/">Gestionar Permisos</a></li>
+                {% endif %}
+
+                <li><a href="/cerrarsesion/">Cerrar Sesión</a></li>
+
+            {% else %}
+                <li><a href="/registrarse/">Registrarse</a></li>
+                <li><a href="/iniciarsesion/">Iniciar Sesión</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endblock content %}
+</body>
+</html>

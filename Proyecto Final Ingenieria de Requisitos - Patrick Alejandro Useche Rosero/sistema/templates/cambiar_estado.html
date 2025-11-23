@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambiar estado</title>
+</head>
+<body>
+<center>
+{% block content %}
+<h1>Cambiar Estado de Reclamos y Solicitudes</h1>
+
+{% if mensaje %}
+    <p style="color:green">{{ mensaje }}</p>
+{% endif %}
+
+<h2>Reclamos</h2>
+<table border="1">
+    <tr>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Descripción</th>
+        <th>Estado</th>
+        <th>Acción</th>
+    </tr>
+    {% for r in reclamos %}
+    <tr>
+        <td>{{ r.codigo }}</td>
+        <td>{{ r.nombre }}</td>
+        <td>{{ r.email }}</td>
+        <td>{{ r.descripcion }}</td>
+        <td>{{ r.estado }}</td>
+        <td>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="codigo" value="{{ r.codigo }}">
+                <input type="hidden" name="tipo" value="reclamo">
+                <select name="nuevo_estado">
+                    <option value="Pendiente por atender" {% if r.estado == "Pendiente por atender" %}selected{% endif %}>Pendiente por atender</option>
+                    <option value="En atención" {% if r.estado == "En atención" %}selected{% endif %}>En atención</option>
+                    <option value="Atendido" {% if r.estado == "Atendido" %}selected{% endif %}>Atendido</option>
+                </select>
+                <a href="/cambiarestado/">
+                    <button>
+                        Cambiar Estado
+                    </button>
+                </a>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Solicitudes</h2>
+<table border="1">
+    <tr>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Descripción</th>
+        <th>Estado</th>
+        <th>Acción</th>
+    </tr>
+    {% for s in solicitudes %}
+    <tr>
+        <td>{{ s.codigo }}</td>
+        <td>{{ s.nombre }}</td>
+        <td>{{ s.email }}</td>
+        <td>{{ s.descripcion }}</td>
+        <td>{{ s.estado }}</td>
+        <td>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="codigo" value="{{ s.codigo }}">
+                <input type="hidden" name="tipo" value="solicitud">
+                <select name="nuevo_estado">
+                    <option value="Pendiente por atender" {% if s.estado == "Pendiente por atender" %}selected{% endif %}>Pendiente por atender</option>
+                    <option value="En atención" {% if s.estado == "En atención" %}selected{% endif %}>En atención</option>
+                    <option value="Atendido" {% if s.estado == "Atendido" %}selected{% endif %}>Atendido</option>
+                </select>
+                <a href="/cambiarestado/">
+                    <button>
+                        Cambiar Estado
+                    </button>
+                </a>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<a href="/">
+    <button>Volver al menú principal</button>
+</a>
+{% endblock %}
+</center>
+</body>
+</html>

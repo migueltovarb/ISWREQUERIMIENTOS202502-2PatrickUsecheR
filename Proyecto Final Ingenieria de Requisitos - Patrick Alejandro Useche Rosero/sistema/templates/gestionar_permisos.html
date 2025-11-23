@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar permisos</title>
+</head>
+<body>
+<center>
+{% block content %}
+<h1>Gestionar Permisos de Usuarios</h1>
+<hr>
+<form method="POST">
+    {% csrf_token %}
+    <p>
+        {{ form.usuario.label_tag }}<br>
+        {{ form.usuario }}
+    </p>
+    <p>
+        {{ form.rol_actual.label_tag }}<br>
+        {{ form.rol_actual }}
+    </p>
+    <p>
+        {{ form.nuevo_rol.label_tag }}<br>
+        {{ form.nuevo_rol }}
+    </p>
+    <hr>
+    <button type="submit">Actualizar Permisos</button>
+    <a href="/"><button type="button">Cancelar</button></a>
+</form>
+
+{% if mensaje %}
+    <p style="font-weight: bold; margin-top: 1rem;">{{ mensaje }}</p>
+{% endif %}
+
+<script>
+    const usuarioSelect = document.getElementById("id_usuario");
+    const rolActualInput = document.getElementById("id_rol_actual");
+
+    usuarioSelect.addEventListener('change', function() {
+        const usuarioId = this.value;
+        if (!usuarioId) {
+            rolActualInput.value = 'Desconocido';
+            return;
+        }
+
+        fetch(`/obtener-rol-actual/?usuario_id=${usuarioId}`)
+            .then(response => response.json())
+            .then(data => {
+                rolActualInput.value = data.rol_actual;
+            })
+            .catch(error => {
+                rolActualInput.value = 'Desconocido';
+                console.error(error);
+            });
+    });
+
+    // Mostrar rol del primer usuario al cargar la página
+    if(usuarioSelect.value) {
+        usuarioSelect.dispatchEvent(new Event('change'));
+    }
+</script>
+</center>
+{% endblock %}
+
+</body>
+</html>

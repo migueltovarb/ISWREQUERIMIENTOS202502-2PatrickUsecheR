@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrase</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    {% block content %}
+<div align="center" style="width: 50%; margin: 0 auto;";>
+    <h1>REGISTRARSE</h1>
+    <form method="POST" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+
+                {% if field.errors %}
+                    <p class="error">{{ field.errors.0 }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        {% if error %}
+            <p class="error-global">{{ error }}</p>
+        {% endif %}
+            <button type="submit" class="btn btn-primary">Registrarse</button>
+            <a href="/">
+            <button type="button" class="btn btn-secondary">Cancelar</button>
+            </a>
+    </form>
+    <p>¿Ya tienes una cuenta? <a href="/iniciarsesion/"><u>Iniciar sesión</u></a></p>
+</div>
+{% endblock content %}
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento de reclamos y solicitudes</title>
+    
+</head>
+<body>
+<h1>Seguimiento de Reclamos y Solicitudes</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">CONSULTAR</button>
+</form>
+<hr>
+{% if resultado_reclamo %}
+    <h2>Reclamo</h2>
+    <p>
+        Código: {{ resultado_reclamo.codigo }}<br>
+        Estado: {{ resultado_reclamo.estado }}<br>
+        Fecha: {{ resultado_reclamo.fecha_registro|date:"d/m/Y H:i" }}<br>
+        Descripción: {{ resultado_reclamo.descripcion }}
+    </p>
+{% endif %}
+
+{% if resultado_solicitud %}
+    <h2>Solicitud</h2>
+    <p>
+        Código: {{ resultado_solicitud.codigo }}<br>
+        Estado: {{ resultado_solicitud.estado }}<br>
+        Fecha: {{ resultado_solicitud.fecha_registro|date:"d/m/Y H:i" }}<br>
+        Descripción: {{ resultado_solicitud.descripcion }}
+    </p>
+{% endif %}
+
+{% if mensaje %}
+    <p>{{ mensaje }}</p>
+{% endif %}
+<a href="/" class="btn btn-seccondary">
+    <button>
+        VOLVER
+    </button>
+</a>
+</body>
+</html>
